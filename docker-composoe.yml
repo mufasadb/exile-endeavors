@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./Users/danielbeach/Code/exile-endeavors
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+    # Add other environment variables if needed
+    # - DB_HOST=db
+    # - DB_USER=user
+    # - DB_PASS=password
+    # - DB_NAME=exile_endeavors_db
+    depends_on:
+      - db
+
+  frontend:
+    build: ./Users/danielbeach/Code/exile-endeavors/exile-endeavors-frontend
+    volumes:
+      - ./Users/danielbeach/Code/exile-endeavors/exile-endeavors-frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  # Uncomment this and the DB environment variables above if you have a database service
+  # db:
+  #   image: postgres:latest
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=exile_endeavors_db
+
+# Uncomment this if you have a database service
+# volumes:
+#   postgres_data:
